@@ -1,7 +1,7 @@
 var friends = [
     {
       name: "Cinq",
-      photo:"http://ldywgilfmw17e67w3vjk9exe.wpengine.netdna-cdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAq7AAAAJDAwYzI4NTQ4LWYwZWUtNGFkYS1hNTYwLTZjYzkwY2ViZDA3OA.jpg",
+      photo:"http://sports.mynorthwest.com/wp-content/uploads/cms/13/1380/138050.jpg",
       scores: [
         "5",
         "5",
