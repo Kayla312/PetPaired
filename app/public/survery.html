@@ -6,7 +6,7 @@
 
   <meta charset="UTF-8">
   <title>Sign-Up Today!</title>
-  
+
   <!-- Font change -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
@@ -37,7 +37,7 @@
         <!-- QUESTION SECTION -->
           <h4><strong>First Question</strong></h4>
           <h5>I express my care for someone through gifts.</h5>
-          <select class="chosen-select" id="q1">
+          <select class="user-choice" id="q1">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -49,7 +49,7 @@
 
           <h4><strong>Second Question</strong></h4>
           <h5>I consider myself to be an extremely loyal friend.</h5>
-          <select class="chosen-select" id="q2">
+          <select class="user-choice" id="q2">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -61,7 +61,7 @@
       
           <h4><strong>Third Question</strong></h4>
           <h5>In general, I experience others emotions very intensely, even though I am not feeling the same way.</h5>
-          <select class="chosen-select" id="q3">
+          <select class="user-choice" id="q3">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -73,7 +73,7 @@
 
           <h4><strong>Fourth Question</strong></h4>
           <h5>I am a very physically active person.</h5>
-          <select class="chosen-select" id="q4">
+          <select class="user-choice" id="q4">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -85,7 +85,7 @@
 
           <h4><strong>Fifth Question</strong></h4>
           <h5>I could sit in a room, with a friend, and not say a word, we just both read our own books.</h5>
-          <select class="chosen-select" id="q5">
+          <select class="user-choice" id="q5">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -97,7 +97,7 @@
 
           <h4><strong>Sixth Question</strong></h4>
           <h5>I cannot help but ask questions if there is a unknown variable present.</h5>
-          <select class="chosen-select" id="q6">
+          <select class="user-choice" id="q6">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -109,7 +109,7 @@
 
           <h4><strong>Seventh Question</strong></h4>
           <h5>I seek to be the center of attention when in a group. </h5>
-          <select class="chosen-select" id="q7">
+          <select class="user-choice" id="q7">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -121,7 +121,7 @@
 
           <h4><strong>Eighth Question</strong></h4>
           <h5>I am fiercely protective of people that I identify as part of my friend group. </h5>
-          <select class="chosen-select" id="q8">
+          <select class="user-choice" id="q8">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -133,7 +133,7 @@
 
           <h4><strong>Ninth Question</strong></h4>
           <h5>I love making people laugh. </h5>
-          <select class="chosen-select" id="q9">
+          <select class="user-choice" id="q9">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -145,7 +145,7 @@
 
           <h4><strong>Tenth Question</strong></h4>
           <h5>I express my care for someone through physical contact. </h5>
-          <select class="chosen-select" id="q10">
+          <select class="user-choice" id="q10">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -164,14 +164,14 @@
         </div>
       </form>
         <!-- Modal -->
-      <div id="results-modal" class="modal fade" role="dialog">
+      <div id="petPair-modal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
           <!-- Modal content-->
           <div class="modal-content">
             <div class="modal-header">
               <button class="close" data-dismiss="modal">&times;</button>
-              <h2 class="modal-title"><strong>Best Match</strong></h2>
+              <h2 class="modal-title"><strong>Here is our Best Match for you!</strong></h2>
             </div>
             <div class="modal-body">
               <h2 id="match-name"></h2>
@@ -181,6 +181,89 @@
               <button class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>
+      <!-- functional in line JavaScript -->
+      <script type="text/javascript">
+        // Chosen CSS
+        var config = {
+          ".user-choice": {},
+          ".user-choice-deselect": {
+            allow_single_deselect: true
+          },
+          ".user-choice-no-single": {
+            disable_search_threshold: 10
+          },
+          ".user-choice-no-results": {
+            no_results_text: "Sorry! We couldnt find anything!"
+          },
+          ".user-choice-width": {
+            width: "95%"
+          }
+        };
+    
+        for (var selector in config) {
+          $(selector).chosen(config[selector]);
+        }
+    
+        // Capture the form inputs
+        $("#submit").on("click", function(event) {
+          event.preventDefault();
+    
+          // makes sure the form is filled out
+          function validateForm() {
+            var isValid = true;
+            $(".form-control").each(function() {
+              if ($(this).val() === "") {
+                isValid = false;
+              }
+            });
+    
+            $(".user-choice").each(function() {
+    
+              if ($(this).val() === "") {
+                isValid = false;
+              }
+            });
+            return isValid;
+          }
+    
+          // IF the user filled out all of the form...
+          if (validateForm()) {
+            // create an object of all of their inputs
+            var userData = {
+              name: $("#name").val(),
+              photo: $("#photo").val(),
+              scores: [
+                $("#q1").val(),
+                $("#q2").val(),
+                $("#q3").val(),
+                $("#q4").val(),
+                $("#q5").val(),
+                $("#q6").val(),
+                $("#q7").val(),
+                $("#q8").val(),
+                $("#q9").val(),
+                $("#q10").val()
+              ]
+            };
+    
+            // AJAX post the data to the friends API.
+            $.post("/api/friends", userData, function(data) {
+    
+              // Grab the result from the AJAX post so that the best match's name and photo are displayed.(hopefully, so long as they gave a photo to use...)
+              $("#match-name").text(data.name);
+              $("#match-img").attr("src", data.photo);
+    
+              // Show the modal with the best match
+              $("#petPair-modal").modal("toggle");
+    
+            });
+            // IF THE USER HASNT FILLED OUT THE ENTIRE FORM THEN...
+          } else {
+            alert("Please fill out all fields before submitting!");
+          }
+        });
+      </script>
+      <!-- end JS section -->
 
     </div>
   </div>
@@ -190,9 +273,6 @@
       <a class="navbar-brand" href="#">Pet Paired</a>
     </nav>
     <!-- Footer Stop -->
-  
-
-  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
 </body>
 
 </html>
